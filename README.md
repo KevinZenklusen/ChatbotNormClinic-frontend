@@ -1,8 +1,8 @@
-# Frontend para Chatbot y Motor de Búsqueda Semántica con Streamlit
+# Frontend para Chatbot de normativa clínica hecho con Streamlit
 
-Este proyecto proporciona una interfaz web desarrollada con **Streamlit** para interactuar con un chatbot basado en búsqueda semántica y generación aumentada por recuperación (**RAG**).
+Este proyecto proporciona una interfaz web desarrollada con **Streamlit** para interactuar con el chatbot de normativa clínica.
 
-A través de esta aplicación, los usuarios pueden realizar consultas en lenguaje natural y obtener respuestas generadas a partir de documentación previamente indexada. Además, cada respuesta incluye las **fuentes utilizadas para generar la información**, permitiendo verificar el origen del contenido mostrado por el chatbot.
+A través de esta aplicación, los usuarios pueden realizar consultas de normativa de ingeniería clínica en lenguaje natural y obtener respuestas generadas a partir de documentación previamente indexada. Además, cada respuesta incluye las **fuentes utilizadas para generar la información**, permitiendo verificar el origen del contenido mostrado por el chatbot.
 
 Este frontend se conecta directamente con la API REST provista por el siguiente proyecto:
 
@@ -29,8 +29,8 @@ Sigue estos pasos para ejecutar el frontend en tu entorno local.
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone git@github.com:codigoarqui/front_buscador_semantico.git
-cd front_buscador_semantico
+git clone git@github.com:KevinZenklusen/ChatbotNormClinic-frontend.git
+cd ChatbotNormClinic-frontend
 ```
 
 ### 2. Crear y Activar un Entorno Virtual
@@ -59,18 +59,29 @@ pip install -r requirements.txt
 
 ---
 
-## Ejecutar la Aplicación
+### 4. Configurar las variables de entorno
+
+Las siguentes variables de entorno son requeridas para el correcto funcionamiento del código:
+
+# En caso de querer utilizar Supabase bucket online (se puede setear path local en app.py)
+- SUPABASE_PROJECT_URL: URL del proyecto de supabase
+
+# ID de usuario
+- USER_ID
+
+# Acceso al backend
+- API_BASE_URL = URL del backend
+
+
+### 5. Ejecutar la Aplicación
 
 El proyecto incluye distintas interfaces de prueba para diferentes funcionalidades:
 
 ```bash
-streamlit run frontend.py --server.port 8501
-streamlit run frontend_rag.py --server.port 8502
-streamlit run frontend_rag_conversacional.py --server.port 8503
-streamlit run frontend_vision.py --server.port 8504
+streamlit run app.py --server.port 8501
 ```
 
-Una vez iniciada la aplicación, Streamlit abrirá automáticamente el navegador. Si esto no ocurre, podés acceder manualmente desde:
+Una vez iniciada la aplicación, Streamlit abrirá automáticamente el navegador. Si esto no ocurre, puede acceder manualmente desde:
 
 ```text
 http://localhost:8501
@@ -78,10 +89,10 @@ http://localhost:8501
 
 ---
 
-## Funcionalidades
+### 6. Funcionalidades
 
 - Interfaz web simple e interactiva desarrollada con Streamlit.
-- Integración con un motor de búsqueda semántica.
+- Integración con un motor de búsqueda semántica y léxica.
 - Chatbot conversacional basado en RAG.
 - Visualización de las fuentes utilizadas para generar cada respuesta.
 - Soporte para distintos modos de interacción y pruebas experimentales.
@@ -93,4 +104,4 @@ http://localhost:8501
 - Este proyecto actúa únicamente como frontend.
 - Toda la lógica de procesamiento, embeddings, recuperación de documentos y generación de respuestas se encuentra en el backend:
   - https://github.com/KevinZenklusen/ChatbotNormClinic-platform
-- Antes de ejecutar este frontend, asegurate de que el backend se encuentre correctamente configurado y en ejecución.
+- Antes de ejecutar este frontend, asegurese de que el backend se encuentre correctamente configurado y en ejecución.

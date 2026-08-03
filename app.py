@@ -9,6 +9,7 @@ load_dotenv()
 
 API_BASE_URL = os.getenv("API_BASE_URL")
 BUSQUEDA_URL = f"{API_BASE_URL}/agent/"
+USER_ID = os.getenv("USER_ID")
 
 # Proyecto de Supabase
 SUPABASE_PROJECT_URL = os.getenv("SUPABASE_PROJECT_URL")
@@ -130,6 +131,7 @@ if prompt := st.chat_input("Hola ¿En qué puedo ayudarte?"):
         message_placeholder = st.empty()
 
         payload = {
+            "user_id": USER_ID,
             "session_id": st.session_state.session_id,
             "consulta": prompt,
             "top_k": 20
@@ -155,6 +157,8 @@ if prompt := st.chat_input("Hola ¿En qué puedo ayudarte?"):
                     st.markdown("---")
                     st.markdown("**Fuentes**")
 
+                    seen = set()
+
                     for src in sources:
 
                         source_url = normalize_url(src.get("source_url"))
@@ -166,14 +170,23 @@ if prompt := st.chat_input("Hola ¿En qué puedo ayudarte?"):
                         # prioridad: source_url -> blob_url
                         pdf_url = source_url or blob_url
 
-                        if pdf_url:
+                        if not pdf_url:
+                            continue
 
-                            pdf_link = f"{pdf_url}#page={page_number}"
+                        # clave única: URL + página
+                        source_key = (pdf_url, page_number)
 
-                            st.markdown(
-                                f'- <a href="{pdf_link}" target="_blank">{pdf_link} (página {page_number})</a>',
-                                unsafe_allow_html=True
-                            )
+                        if source_key in seen:
+                            continue
+
+                        seen.add(source_key)
+
+                        pdf_link = f"{pdf_url}#page={page_number}"
+
+                        st.markdown(
+                            f'- {pdf_link} (página {page_number})</a>',
+                            unsafe_allow_html=True
+                        )
 
                 st.session_state.messages.append({
                     "role": "assistant",
